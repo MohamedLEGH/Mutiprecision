@@ -18,7 +18,7 @@ def vec(A):
 	a=arb_mat(A.ncols*A.nrows,1) # vecteur (matrice taille(A)*1 ) rempli avec des zéros 
 	for j in A.ncols:
 		for i in A.nrows:
-			a[k]=A[i,j]
+			a[k,0]=A[i,j]
 			k=k+1
 	return a
 
