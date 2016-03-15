@@ -1,0 +1,12 @@
+
+
+L'algorithme de la methode naiv pour résoudre l'équation de lyapunov est le suivant:
+
+Soit une matrice A carrée de taille n et une matrice B de taille n*p
+
+1) Crée une matrice identité inn de taille n^2 # Facile à faire avec la bibliothèque python-flint
+2) Faire le produit de kroneker entre la matrice A et elle-même #Driss et Lucas sont en train de le faire
+3) On a besoin de la transposé de la matrice B # Je vais faire une fonction pour calculer la transposé de la matrice B
+4) On vectorize B*Bt donc on a besoin d'une fonction de vectorization # Je l'ai fait mais il faut la tester
+5) Calculer l'inverse de Inn-AkronA #Existe déjà dans python-flint
+6) On a besoin de dévectorizer # Plus tard
