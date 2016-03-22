@@ -24,7 +24,7 @@ def arb_lyap_naiv(A, BBt):
 	Ak = arb_kron(A,A)
 	
 	# ( I(n^2) - kronecker(A,A) )⁻¹ and A⁻¹ * vect(B*Bt)
-	print( "[arb_lyap_naiv] det(I-Ak) =" + str( arb_mat.det(I-Ak)) )
+#	print( "[arb_lyap_naiv] det(I-Ak) =" + str( arb_mat.det(I-Ak)) )
 	#Ai = arb_mat.solve( I-Ak, I)
 	Ai = arb_mat.inv( I - Ak)
 	w = Ai*b

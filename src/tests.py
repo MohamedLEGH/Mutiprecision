@@ -30,11 +30,13 @@ def convert_arb_mat(M):
 	return arb_mat( n, m, l)
 
 # Initialisation
+
+ctx.prec = 300
 t = str( raw_input("Systême de matrices (random/last/\"nomfichier\"):"))
 
 # Génération aléatoire
 if( t == "random" or t == "r") :
-	n,p,q = 5,2,2
+	n,p,q = 10,5,5
 	A, B, C, D = random_dSS( n, p, q)
 	np.savez("log", A, B, C, D)
 	
@@ -114,5 +116,4 @@ print ("Scipy: La norme L2 est " + str(Hscipy))
 print ("slycot: La norme L2 est " + str(Hslycot))
 print ("Naiv: La norme L2 est " + str(Hnaiv))
 print ("Arb_naiv: La norme L2 est " + str(Harb_naiv))
-
 
