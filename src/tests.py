@@ -29,11 +29,32 @@ def convert_arb_mat(M):
 			l.append(coef)
 	return arb_mat( n, m, l)
 
-
 # Initialisation
-n,p,q = 10,5,5
-A, B, C, D = random_dSS( n, p, q)
-print("Rayon spectral de A: " + str(np.amax( np.absolute( np.linalg.eigvals( A)))) + "\n")
+t = str( raw_input("Systême de matrices (random/last/\"nomfichier\"):"))
+
+# Génération aléatoire
+if( t == "random" or t == "r") :
+	n,p,q = 5,2,2
+	A, B, C, D = random_dSS( n, p, q)
+	np.savez("log", A, B, C, D)
+	
+	print("Rayon spectral de A: " + str(np.amax( np.absolute( np.linalg.eigvals( A)))) + "\n")
+
+# Dernier appel
+elif( t == "last" or t == "l" ) :
+	sys = np.load("log.npz")
+	A = np.matrix( sys["arr_0"] )
+	B = np.matrix( sys["arr_1"] )
+	C = np.matrix( sys["arr_2"] )
+	D = np.matrix( sys["arr_3"] )
+
+# Depuis le fichier passé en argument
+else :
+	sys = np.load(t)
+	A = np.matrix( sys["arr_0"] )
+	B = np.matrix( sys["arr_1"] )
+	C = np.matrix( sys["arr_2"] )
+	D = np.matrix( sys["arr_3"] )
 
 # version intervalle des matrices
 Ai = convert_arb_mat(A)
@@ -62,9 +83,9 @@ Wscipy = solve_discrete_lyapunov( A, B*Bt)
 ref = A*Wscipy*At + B*Bt
 print( "Précision résolution scipy: " + str(np.amax( Wscipy - ref)) )
 
-Wschur = dlyap_schur( A, B*Bt)
-ref = A*Wschur*At + B*Bt
-print( "Précision résolution schur: " + str(np.amax( Wschur - ref)) )
+#Wschur = dlyap_schur( A, B*Bt)
+#ref = A*Wschur*At + B*Bt
+#print( "Précision résolution schur: " + str(np.amax( Wschur - ref)) )
 
 Wslycot = dlyap_slycot( A, B*Bt)
 ref = A*Wslycot*At + B*Bt
@@ -77,22 +98,21 @@ print( "Précision résolution naive: " + str(np.amax( Wnaiv - ref)) )
 
 Warb_naiv = arb_lyap_naiv(Ai, Bi*Bit)
 ref = Ai*Warb_naiv*Ait + Bi*Bit
-print( Warb_naiv)
-#print( "Précision résolution arb_naive: " + str(np.amax( Warb_naiv - ref)) )
 
 #Norme L2
 print ""
 
 Hscipy = sqrt( np.matrix.trace( C*Wscipy*Ct + D*Dt))
-Hschur = sqrt( np.matrix.trace( C*Wschur*Ct + D*Dt + D*Dt))
+#Hschur = sqrt( np.matrix.trace( C*Wschur*Ct + D*Dt + D*Dt))
 Hslycot = sqrt( np.matrix.trace( C*Wslycot*Ct + D*Dt + D*Dt))
 
 Hnaiv = sqrt( np.matrix.trace( C*Wnaiv*Ct + D*Dt + D*Dt))
 Harb_naiv = arb.sqrt( arb_trace( Ci*Warb_naiv*Cit + Di*Dit + Di*Dit))
 
 print ("Scipy: La norme L2 est " + str(Hscipy))
-print ("Schur: La norme L2 est " + str(Hschur))
+#print ("Schur: La norme L2 est " + str(Hschur))
 print ("slycot: La norme L2 est " + str(Hslycot))
 print ("Naiv: La norme L2 est " + str(Hnaiv))
 print ("Arb_naiv: La norme L2 est " + str(Harb_naiv))
+
 
