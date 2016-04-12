@@ -31,7 +31,7 @@ def convert_arb_mat(M):
 
 # Initialisation et choix du systême 
 
-ctx.prec = 500
+ctx.prec = 250
 t = str( raw_input("Systême de matrices (random/last/\"nomfichier\"):"))
 
 # Génération aléatoire
