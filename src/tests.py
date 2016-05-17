@@ -4,39 +4,27 @@
 # GAUDELET Lucas
 # LEGHEBARA MOHAMED
 # MAIN 3
-# 09.02.16
-
-# Question 1 
-# calcule de la norme L2 d'un filtre modélisé par les matrices A, B, C, et D
-# Le rayon spectral de A doit être inférieur à 1
 
 #import
 import numpy as np
 from flint import *
 from random_dSS import random_dSS
+from math import sqrt
 from scipy.linalg import solve_discrete_lyapunov
 from pydare.dlyap import dlyap_schur, dlyap_slycot
+
 from resolution_naive import lyap_naiv
 from arb_resolution_naive import arb_lyap_naiv
-from arb_mat_functions import arb_trace
-from math import sqrt
-
-def convert_arb_mat(M):
-	n, m, = M.shape
-	l = []
-	for ligne in M.tolist():
-		for coef in ligne:
-			l.append(coef)
-	return arb_mat( n, m, l)
+from arb_mat_functions import arb_trace, convert_arb_mat
 
 # Initialisation et choix du systême 
 
-ctx.prec = 500
+ctx.prec = 300
 t = str( raw_input("Systême de matrices (random/last/\"nomfichier\"):"))
 
 # Génération aléatoire
 if( t == "random" or t == "r" or t=="") :
-	n,p,q = 10,15,15
+	n,p,q = 15,15,15
 	A, B, C, D = random_dSS( n, p, q)
 	
 	print("Rayon spectral de A: " + str(np.amax( np.absolute( np.linalg.eigvals( A)))) + "\n")
@@ -57,11 +45,17 @@ else :
 	C = np.matrix( sys["arr_2"] )
 	D = np.matrix( sys["arr_3"] )
 
-# version intervalle des matrices
+# version arb_mat des matrices
 Ai = convert_arb_mat(A)
 Bi = convert_arb_mat(B)
 Ci = convert_arb_mat(C)
 Di = convert_arb_mat(D)
+
+# version numpy.mat+arb des matrices:
+Ani = arb(1)*A
+Bni = arb(1)*B
+Cni = arb(1)*C
+Dni = arb(1)*D
 
 # Transposés des matrices
 At = A.transpose()
@@ -69,11 +63,18 @@ Bt = B.transpose()
 Ct = C.transpose()
 Dt = D.transpose()
 
-# version intervalle
+# version arb_mat
 Ait = convert_arb_mat(At)
 Bit = convert_arb_mat(Bt)
 Cit = convert_arb_mat(Ct)
 Dit = convert_arb_mat(Dt)
+
+# version numpy.mat+arb
+Anit = arb(1)*At
+Bnit = arb(1)*Bt
+Cnit = arb(1)*Ct
+Dnit = arb(1)*Dt
+
 
 
 

@@ -7,6 +7,15 @@
 from flint import arb, arb_mat
 from math import floor
 
+def convert_arb_mat(M):
+	""" Converts a numpy matrix to arb matrix """
+	n, m, = M.shape
+	l = []
+	for ligne in M.tolist():
+		for coef in ligne:
+			l.append(coef)
+	return arb_mat( n, m, l)
+
 def arb_transpose(M):
 	"""	Computes the transpose of the matrix M """
 	n, m = arb_mat.nrows(M), arb_mat.ncols(M)
