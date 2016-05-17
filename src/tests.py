@@ -20,6 +20,7 @@ from arb_mat_functions import arb_trace, convert_arb_mat
 # Initialisation et choix du systême 
 
 ctx.prec = 300
+
 t = str( raw_input("Systême de matrices (random/last/\"nomfichier\"):"))
 
 # Génération aléatoire
@@ -118,7 +119,7 @@ print ("Scipy: La norme L2 est " + str(Hscipy))
 #print ("Schur: La norme L2 est " + str(Hschur))
 print ("Slycot: La norme L2 est " + str(Hslycot))
 print ("Naiv: La norme L2 est " + str(Hnaiv))
-print ("Arb_naiv: La norme L2 est:\n" + str(Harb_naiv))
+print ("Arb_naiv: La norme L2 est:" + str(Harb_naiv))
 
 
 # Sauvegarde du systême testé
