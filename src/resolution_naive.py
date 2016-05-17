@@ -6,7 +6,6 @@
 # MAIN 3
 # 09.02.16
 
-from math import sqrt
 import numpy as np
 	
 def lyap_naiv(A, BBt):
