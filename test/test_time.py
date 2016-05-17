@@ -5,13 +5,16 @@
 # LEGHEBARA MOHAMED
 # MAIN 3
 
-#import
+
+# Ajout du dossier src au path d'import
+import sys
+sys.path.insert(0, '/home/lucas/Documents/Projet_S6/Mutiprecision/src')
+
+#imports
 import numpy as np
 from flint import *
 from random_dSS import random_dSS
 from math import sqrt
-from scipy.linalg import solve_discrete_lyapunov
-from pydare.dlyap import dlyap_schur, dlyap_slycot
 
 from resolution_naive import lyap_naiv
 from arb_resolution_naive import arb_lyap_naiv
