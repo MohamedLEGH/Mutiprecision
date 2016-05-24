@@ -12,31 +12,16 @@ def lyap_bartel(A,BBt):
 	m,n=A.shape
 	r=0
 	z=0
-	#for z in range(0,m):
-	while z<m:
-		r=r+1
-		if z!=m-1:
-			if T[z+1,z] != 0 :
-				z=z+1
-		z=z+1	
-	if T[-1,-2] == 0 :
-		nk=1
-	else :
-		nk=2
-	
 # r c'est le nombre de block de la matrice T
 	for k in range(r,1,-1):
 	#For k de r à 1 pas =-1
-		m=m-nk
+		m=m-1
 		R22=T[k,k]
 		R12=T[1:k-1,k]
 		R11 = T - R22 - R12
 		[C11,C12,C21,C22] = divise_en_4(C)
 		nk,mk = R22.shape
-		if nk == 1 :
-			Z22=C22/(2*R22)
-		elif nk == 2:
-			Z22 = naivContinu(R22,C22)
+		Z22=C22/(2*R22)
 		C12p = C12 - R12*Z22
 		C21p = C21t - R12*Z22.transpose()
 		for j in range(k-1,1,-1):
