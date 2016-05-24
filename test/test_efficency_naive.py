@@ -27,9 +27,9 @@ def isNaN(num):
     return num != num
     
 # Initialisation et choix du systême
-nbt = 100
-ctx.prec = 2000
-n,p,q = 5, 5, 5
+nbt = 1
+ctx.prec = 700
+n,p,q = 15, 15, 15
 m_prec = arb(0)
 m_tps = 0
 m_succes = 0
