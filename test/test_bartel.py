@@ -30,6 +30,14 @@ if( t == "random" or t == "r" or t=="") :
 	A, B, C, D = random_dSS( n, p, q)
 	
 	print("Rayon spectral de A: " + str(np.amax( np.absolute( np.linalg.eigvals( A)))) + "\n")
+	
+	# Sauvegarde du systême testé
+	print ""
+	t = str( raw_input("Save in (default/\"nomfichier\"):"))
+	if (t=="default" or t=="d" or t==""):
+		np.savez("log", A, B, C, D)
+	else :
+		np.savez(t, A, B, C, D)
 
 # Dernier appel
 elif( t == "last" or t == "l" ) :
@@ -47,11 +55,7 @@ else :
 	C = np.matrix( sys["arr_2"] )
 	D = np.matrix( sys["arr_3"] )
 
-# version arb_mat des matrices
-Ai = convert_arb_mat(A)
-Bi = convert_arb_mat(B)
-Ci = convert_arb_mat(C)
-Di = convert_arb_mat(D)
+
 
 # Transposés des matrices
 At = A.transpose()
@@ -72,11 +76,3 @@ print ("W = " + str(Wbartel) )
 Hbartel =  sqrt( np.matrix.trace( C*Wbartel*Ct + D*Dt + D*Dt))
 
 print ("Bartel: La norme L2 est " + str(Hbartel))
-
-# Sauvegarde du systême testé
-print ""
-t = str( raw_input("Save in (default/\"nomfichier\"):"))
-if (t=="default" or t=="d" or t==""):
-	np.savez("log", A, B, C, D)
-else :
-	np.savez(t, A, B, C, D)

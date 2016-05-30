@@ -11,25 +11,25 @@ def part( M):
 	"""
 	Cette conction partitionne T une matrice triangulaire supérieure par blocs.
 	
-	Retourne r le nombre de blocs diagonaux et Tpart leurs tailles respectives.
+	Retourne r le nombre de blocs diagonaux et Mpart leurs tailles respectives.
 	"""
 	n, m = M.shape
-	
 	Mpart = []
-	k = 0
-	r = 1
-	while (k<m-2) :
-		r = r+1
-		if( M[k+1,k] == 0 ):
-			Mpart.append(1)
-			k = k+1
-		else :
-			Mpart.append(2)
-			k = k+2
-	if( M[m-1,m-2] == 0 ):
-		Mpart.append(1)
-	else :
+	
+	t = 1
+	r = 0
+	for i in range( n-1):
+		if(M[i+1,i] != 0):
+			t = t+1
+		else:
+			Mpart.append(t)
+			r = r+1
+			t = 1
+	if(M[n-1,n-2]!=0):
 		Mpart.append(2)
+	else:
+		Mpart.append(1)
+	r = r+1
 	
 	return (r, Mpart)
 
@@ -58,22 +58,26 @@ def lyap_naiv_con(A, W):
 #calcule vect(X)=(IxA+AxI)⁻¹vect(W)
 	
 # Matrix dimension
-	N = A.shape[1]
+	n = A.shape[1]
 # I(n^2), vect(W) and kronecker( I, A) kronecker( A, I)
-	Inn=np.eye(N)
-	print ("Inn=\n" + str(Inn) )
-	print ""
+	In=np.eye(n)
 	w = W.flatten('F')
 	w = w.transpose()
-	Ak1 = np.kron(Inn,A)
-	Ak2 = np.kron(A,Inn)
+	Ak1 = np.kron(In,A)
+	Ak2 = np.kron(A,In)
+	print("\tAk1 = kron(In,A)")
+	print("\tAk2 = kron(A,In)")
 # ( kronecker(I,A) + kronecker(A,I) )⁻¹ 
 	Ai = np.linalg.inv(Ak1 + Ak2)
-	print ("Ai=\n" + str(Ai) )
+	print ("\tAi=inv(Ak1+Ak2)\n" + str(Ai) )
 	print ""
-	print ("w=\n" + str(w) )
+	print ("\tw=\n" + str(w) )
 	X = Ai*w
-	return np.reshape(X,(N,-1),order='F') 
+	res = np.reshape(X,(n,-1),order='F') 
+	print ""
+	print ("\tres=\n"+str(res) )
+	print ""
+	return res
 	
 
 def lyap_naiv_con2(A ,B , W):
@@ -85,23 +89,25 @@ def lyap_naiv_con2(A ,B , W):
 # I(n^2), vect(W) and kronecker( I, A) kronecker( B, I)
 	Ik = np.eye(k)
 	Im = np.eye(m)
-	w = W.flatten('F')
-	print ("Ik=\n" + str(Ik) )
+	w = W.flatten('F').transpose()
+	print ("\tA=\n" + str(A) )
 	print ""
-	print ("Im=\n" + str(Im) )
-	print ""
-	print ("A=\n" + str(A) )
-	print ""
-	print ("B=\n" + str(B) )
+	print ("\tB=\n" + str(B) )
 	print ""
 	
+	print( "\tAk = kron(In,A)" )
+	print( "\tBk= kron(B,Ik)" )
 	Ak = np.kron(Im,A)
 	Bk = np.kron(B,Ik)
 # ( kronecker(I,A) + kronecker(A,I) )⁻¹ 
 	Ai = np.linalg.inv(Ak + Bk)
-	print ("Ai=\n" + str(Ai) )
+	print ("\tAi=inv(Ak+Bk)\n" + str(Ai) )
 	print ""
-	print ("w=\n" + str(w) )
+	print ("\tw=W.flatten\n" + str(w) )
 	X = Ai*w
-	return np.reshape(X,(k,-1),order='F')
+	res = np.reshape(X,(k,-1),order='F') 
+	print ""
+	print ("\tres=\n"+str(res) )
+	print ""
+	return res
 	
