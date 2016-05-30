@@ -21,6 +21,7 @@ from pydare.dlyap import dlyap_schur, dlyap_slycot
 from resolution_naive import lyap_naiv
 from arb_resolution_naive import arb_lyap_naiv
 from arb_mat_functions import arb_trace, convert_arb_mat
+from lyap_bartels_stewart import lyap_bartel_stewart
 
 # Initialisation et choix du systême 
 
@@ -75,38 +76,34 @@ Bit = convert_arb_mat(Bt)
 Cit = convert_arb_mat(Ct)
 Dit = convert_arb_mat(Dt)
 
-# version numpy.mat+arb
-Anit = arb(1)*At
-Bnit = arb(1)*Bt
-Cnit = arb(1)*Ct
-Dnit = arb(1)*Dt
-
-
-
 
 # Résolution de l'Equation de Lyapunov: W = A W At + B Bt
 
 # References
 Wscipy = solve_discrete_lyapunov( A, B*Bt)
-#ref = A*Wscipy*At + B*Bt
+ref = A*Wscipy*At + B*Bt
 #print( "\"Précision\" résolution scipy: " + str(np.amax( Wscipy - ref)) )
 
 Wschur = dlyap_schur( A, B*Bt)
-#ref = A*Wschur*At + B*Bt
-#print( "Précision résolution schur: " + str(np.amax( Wschur - ref)) )
+ref = A*Wschur*At + B*Bt
+#print( "\"Précision\" résolution schur: " + str(np.amax( Wschur - ref)) )
 
 Wslycot = dlyap_slycot( A, B*Bt)
-#ref = A*Wslycot*At + B*Bt
+ref = A*Wslycot*At + B*Bt
 #print( "\"Précision\" résolution slycot: " + str(np.amax( Wslycot - ref)) )
 
 
 # Méthodes "maison"
-Wnaiv = lyap_naiv(A, B*Bt)
+#Wnaiv = lyap_naiv(A, B*Bt)
 #ref = A*Wnaiv*At + B*Bt
 #print( "\"Précision\" résolution naive: " + str(np.amax( Wnaiv - ref)) )
 
-Warb_naiv = arb_lyap_naiv(Ai, Bi*Bit)
-ref = Ai*Warb_naiv*Ait + Bi*Bit
+#Wbartel = lyap_bartel_stewart( A, B*Bt)
+#ref = A*Wbartel*At + B*Bt
+#print( "\"Précision\" résolution bartel: " + str(np.amax( Wbartel - ref)) )
+
+#Warb_naiv = arb_lyap_naiv(Ai, Bi*Bit)
+#ref = Ai*Warb_naiv*Ait + Bi*Bit
 
 
 
@@ -114,17 +111,19 @@ ref = Ai*Warb_naiv*Ait + Bi*Bit
 print ""
 
 Hscipy = sqrt( np.matrix.trace( C*Wscipy*Ct + D*Dt))
-#Hschur = sqrt( np.matrix.trace( C*Wschur*Ct + D*Dt + D*Dt))
+Hschur = sqrt( np.matrix.trace( C*Wschur*Ct + D*Dt + D*Dt))
 Hslycot = sqrt( np.matrix.trace( C*Wslycot*Ct + D*Dt + D*Dt))
 
-Hnaiv = sqrt( np.matrix.trace( C*Wnaiv*Ct + D*Dt + D*Dt))
-Harb_naiv = arb.sqrt( arb_trace( Ci*Warb_naiv*Cit + Di*Dit + Di*Dit))
+#Hnaiv = sqrt( np.matrix.trace( C*Wnaiv*Ct + D*Dt + D*Dt))
+#Hbartel =  sqrt( np.matrix.trace( C*Wbartel*Ct + D*Dt + D*Dt))
+#Harb_naiv = arb.sqrt( arb_trace( Ci*Warb_naiv*Cit + Di*Dit + Di*Dit))
 
 print ("Scipy: La norme L2 est " + str(Hscipy))
-#print ("Schur: La norme L2 est " + str(Hschur))
+print ("Schur: La norme L2 est " + str(Hschur))
 print ("Slycot: La norme L2 est " + str(Hslycot))
-print ("Naiv: La norme L2 est " + str(Hnaiv))
-print ("Arb_naiv: La norme L2 est:" + str(Harb_naiv))
+#print ("Naiv: La norme L2 est " + str(Hnaiv))
+#print ("Bartel: La norme L2 est " + str(Hbartel))
+#print ("Arb_naiv: La norme L2 est:" + str(Harb_naiv))
 
 
 # Sauvegarde du systême testé
