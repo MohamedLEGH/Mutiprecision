@@ -55,59 +55,40 @@ def divise_en_4(T,A):
 	
 
 def lyap_naiv_con(A, W):
-#calcule vect(X)=(IxA+AxI)⁻¹vect(W)
-	
-# Matrix dimension
+	""" Calcule vect(X)=(IxA+AxI)⁻¹vect(W) """
+
 	n = A.shape[1]
-# I(n^2), vect(W) and kronecker( I, A) kronecker( A, I)
+	
+	w = W.flatten('F').transpose()
+	
 	In=np.eye(n)
-	w = W.flatten('F')
-	w = w.transpose()
 	Ak1 = np.kron(In,A)
 	Ak2 = np.kron(A,In)
-	print("\tAk1 = kron(In,A)")
-	print("\tAk2 = kron(A,In)")
-# ( kronecker(I,A) + kronecker(A,I) )⁻¹ 
+	
 	Ai = np.linalg.inv(Ak1 + Ak2)
-	print ("\tAi=inv(Ak1+Ak2)\n" + str(Ai) )
-	print ""
-	print ("\tw=\n" + str(w) )
+	
 	X = Ai*w
-	res = np.reshape(X,(n,-1),order='F') 
-	print ""
-	print ("\tres=\n"+str(res) )
-	print ""
-	return res
+	
+	return np.reshape(X,(n,-1),order='F') 
 	
 
 def lyap_naiv_con2(A ,B , W):
-#calcule vect(X)=(IxA+BxI)⁻¹vect(W)
+	"""	Calcule vect(X)=(IxA+BxI)⁻¹vect(W) """
 	
-# Matrix dimension
 	k = A.shape[0]
 	m = B.shape[1]
-# I(n^2), vect(W) and kronecker( I, A) kronecker( B, I)
-	Ik = np.eye(k)
-	Im = np.eye(m)
+		
 	w = W.flatten('F').transpose()
-	print ("\tA=\n" + str(A) )
-	print ""
-	print ("\tB=\n" + str(B) )
-	print ""
-	
-	print( "\tAk = kron(In,A)" )
-	print( "\tBk= kron(B,Ik)" )
+
+	Im = np.eye(m)
 	Ak = np.kron(Im,A)
+	Ik = np.eye(k)
 	Bk = np.kron(B,Ik)
-# ( kronecker(I,A) + kronecker(A,I) )⁻¹ 
+
 	Ai = np.linalg.inv(Ak + Bk)
-	print ("\tAi=inv(Ak+Bk)\n" + str(Ai) )
-	print ""
-	print ("\tw=W.flatten\n" + str(w) )
+
 	X = Ai*w
-	res = np.reshape(X,(k,-1),order='F') 
-	print ""
-	print ("\tres=\n"+str(res) )
-	print ""
-	return res
 	
+	return np.reshape(X,(k,-1),order='F') 
+	
+

@@ -80,12 +80,12 @@ Dit = convert_arb_mat(Dt)
 # Résolution de l'Equation de Lyapunov: W = A W At + B Bt
 
 # References
-Wscipy = solve_discrete_lyapunov( A, B*Bt)
-ref = A*Wscipy*At + B*Bt
+#Wscipy = solve_discrete_lyapunov( A, B*Bt)
+#ref = A*Wscipy*At + B*Bt
 #print( "\"Précision\" résolution scipy: " + str(np.amax( Wscipy - ref)) )
 
 Wschur = dlyap_schur( A, B*Bt)
-ref = A*Wschur*At + B*Bt
+#ref = A*Wschur*At + B*Bt
 #print( "\"Précision\" résolution schur: " + str(np.amax( Wschur - ref)) )
 
 Wslycot = dlyap_slycot( A, B*Bt)
@@ -94,11 +94,11 @@ ref = A*Wslycot*At + B*Bt
 
 
 # Méthodes "maison"
-#Wnaiv = lyap_naiv(A, B*Bt)
+Wnaiv = lyap_naiv(A, B*Bt)
 #ref = A*Wnaiv*At + B*Bt
 #print( "\"Précision\" résolution naive: " + str(np.amax( Wnaiv - ref)) )
 
-#Wbartel = lyap_bartel_stewart( A, B*Bt)
+Wbartel = lyap_bartel_stewart( A, B*Bt)
 #ref = A*Wbartel*At + B*Bt
 #print( "\"Précision\" résolution bartel: " + str(np.amax( Wbartel - ref)) )
 
@@ -110,19 +110,19 @@ ref = A*Wslycot*At + B*Bt
 # Calcul de la Norme L2
 print ""
 
-Hscipy = sqrt( np.matrix.trace( C*Wscipy*Ct + D*Dt))
+#Hscipy = sqrt( np.matrix.trace( C*Wscipy*Ct + D*Dt))
 Hschur = sqrt( np.matrix.trace( C*Wschur*Ct + D*Dt + D*Dt))
 Hslycot = sqrt( np.matrix.trace( C*Wslycot*Ct + D*Dt + D*Dt))
 
-#Hnaiv = sqrt( np.matrix.trace( C*Wnaiv*Ct + D*Dt + D*Dt))
-#Hbartel =  sqrt( np.matrix.trace( C*Wbartel*Ct + D*Dt + D*Dt))
+Hnaiv = sqrt( np.matrix.trace( C*Wnaiv*Ct + D*Dt + D*Dt))
+Hbartel =  sqrt( np.matrix.trace( C*Wbartel*Ct + D*Dt + D*Dt))
 #Harb_naiv = arb.sqrt( arb_trace( Ci*Warb_naiv*Cit + Di*Dit + Di*Dit))
 
-print ("Scipy: La norme L2 est " + str(Hscipy))
+#print ("Scipy: La norme L2 est " + str(Hscipy))
 print ("Schur: La norme L2 est " + str(Hschur))
 print ("Slycot: La norme L2 est " + str(Hslycot))
-#print ("Naiv: La norme L2 est " + str(Hnaiv))
-#print ("Bartel: La norme L2 est " + str(Hbartel))
+print ("Naiv: La norme L2 est " + str(Hnaiv))
+print ("Bartel: La norme L2 est " + str(Hbartel))
 #print ("Arb_naiv: La norme L2 est:" + str(Harb_naiv))
 
 
